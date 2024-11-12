@@ -1,0 +1,24 @@
+#Majority Element
+Given an array nums of size n, return the majority element.
+The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution(object):
+    def majorityElement(self, nums):
+        candidate = None
+        count = 0
+        
+        # Boyer-Moore Voting Algorithm
+        for num in nums:
+            if count == 0:
+                candidate = num
+            count += (1 if num == candidate else -1)
+        
+        # Returning the majority element
+        return candidate
+
+# Example usage
+solution = Solution()
+nums = [3, 2, 3]
+print(solution.majorityElement(nums))  # Output: 3
