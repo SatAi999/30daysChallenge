@@ -1,0 +1,39 @@
+#Finding Missing And Repeated Values
+You are given a 0-indexed 2D integer matrix grid of size n * n with values in the range [1, n2]. Each integer appears exactly once except a which appears twice and b which is missing. The task is to find the repeating and missing numbers a and b.
+
+Return a 0-indexed integer array ans of size 2 where ans[0] equals to a and ans[1] equals to b.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+class Solution(object):
+    def findMissingAndRepeatedValues(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: List[int]
+        """
+        # Flatten the grid to a 1D list
+        flattened = [num for row in grid for num in row]
+        n = len(grid)  # n is the size of one dimension of the matrix
+        N = n * n  # Total number of elements in the flattened list
+
+        # Calculate expected sum and expected sum of squares
+        expected_sum = N * (N + 1) // 2
+        expected_sum_squares = N * (N + 1) * (2 * N + 1) // 6
+
+        # Calculate actual sum and actual sum of squares
+        actual_sum = sum(flattened)
+        actual_sum_squares = sum(x * x for x in flattened)
+
+        # Calculate a - b and a^2 - b^2
+        sum_diff = actual_sum - expected_sum        # This is (a - b)
+        sum_squares_diff = actual_sum_squares - expected_sum_squares  # This is (a^2 - b^2)
+
+        # Now, a^2 - b^2 = (a + b) * (a - b)
+        sum_ab = sum_squares_diff // sum_diff       # This gives (a + b)
+
+        # Now we have two equations:
+        # 1. a - b = sum_diff
+        # 2. a + b = sum_ab
+        # Solving these equations gives:
+        a = (sum_diff + sum_ab) // 2
+        b = a - sum_diff
+
+        return [a, b]
