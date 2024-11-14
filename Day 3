@@ -1,0 +1,45 @@
+Merge Sorted Array
+You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
+
+Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+
+The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
+
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+class Solution(object):
+    def merge(self, nums1, m, nums2, n):
+        """
+        :type nums1: List[int]
+        :type m: int
+        :type nums2: List[int]
+        :type n: int
+        :rtype: None Do not return anything, modify nums1 in-place instead.
+        """
+
+        
+        # Initialize three pointers:
+        # p1: points to the last initialized element in nums1 (index m - 1)
+        p1 = m - 1
+        # p2: points to the last element in nums2 (index n - 1)
+        p2 = n - 1
+        # p: points to the last position in nums1 (index m + n - 1)
+        p = m + n - 1
+
+        # While there are elements to compare in both nums1 and nums2
+        while p1 >= 0 and p2 >= 0:
+            # Compare the elements pointed to by p1 and p2
+            # Place the larger one at position p in nums1
+            if nums1[p1] > nums2[p2]:
+                nums1[p] = nums1[p1]
+                p1 -= 1  # Move p1 left since we've placed nums1[p1] in the final position
+            else:
+                nums1[p] = nums2[p2]
+                p2 -= 1  # Move p2 left since we've placed nums2[p2] in the final position
+            # Move p left to the next position to fill
+            p -= 1
+
+        # If there are remaining elements in nums2 (p2 is not yet -1), copy them
+        # This handles the case where the smallest elements are left in nums2
+        nums1[:p2 + 1] = nums2[:p2 + 1]
+
+        # No need to copy remaining elements from nums1, as they are already in place
