@@ -1,0 +1,22 @@
+Maximum Subarray
+Given an integer array nums, find the subarray with the largest sum, and return its sum.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        # Initialize variables
+        current_sum = nums[0]  # Sum of the current subarray
+        max_sum = nums[0]      # Maximum sum encountered so far
+
+        # Iterate through the array starting from the second element
+        for num in nums[1:]:
+            # Decide whether to extend the current subarray or start a new one
+            current_sum = max(num, current_sum + num)
+            # Update the maximum sum
+            max_sum = max(max_sum, current_sum)
+
+        return max_sum
